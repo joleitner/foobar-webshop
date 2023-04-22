@@ -3,10 +3,10 @@ version: '3'
 services:
   app:
     build:
-      context: ./app
+      context: ./frontend
       target: base
     volumes:
-      - ./app:/usr/src/app
+      - ./frontend:/usr/src/app
     ports:
       - '3000:3000'
     command: npm run dev
