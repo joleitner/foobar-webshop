@@ -1,8 +1,9 @@
+import ArticleList from './components/ArticleList';
+
 export default function HomePage() {
   return (
-    <div>
-      <h1>FooBar GmbH</h1>
-      <p>some text</p>
+    <div className="container">
+      <ArticleList />
     </div>
-  )
+  );
 }

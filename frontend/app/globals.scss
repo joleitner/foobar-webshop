@@ -1,0 +1,21 @@
+/* Custom Pink version */
+
+// Override default variables
+$primary-500: #7cb342;
+$primary-600: #7cb342;
+$primary-700: #7cb342;
+
+.right {
+  text-align: end;
+}
+.center {
+  text-align: center;
+}
+
+.no-style {
+  text-decoration: inherit;
+  color: inherit;
+}
+
+// Import Pico
+@import '@picocss/pico/scss/pico';
