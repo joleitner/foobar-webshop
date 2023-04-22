@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+
 export type Article = {
   id: number;
   name: string;

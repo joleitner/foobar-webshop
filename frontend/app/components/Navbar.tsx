@@ -1,14 +1,8 @@
 import Link from 'next/link';
-import { ShoppingCart, Sun, Moon } from 'react-feather';
+import ThemeToggle from './ThemeToggle';
+import { ShoppingCart } from 'react-feather';
 
 export default function Navbar() {
-  let darkmode = false;
-
-  function toggleTheme() {
-    darkmode = !darkmode;
-    //document.body.classList.toggle('dark-mode');
-  }
-
   return (
     <nav>
       <ul>
@@ -25,6 +19,9 @@ export default function Navbar() {
           <Link href="/cart">
             <ShoppingCart />
           </Link>
+        </li>
+        <li>
+          <ThemeToggle />
         </li>
 
         {/* <li>

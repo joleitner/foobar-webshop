@@ -9,6 +9,6 @@ RUN npm install
 COPY . .
 
 # build TypeScript code
-RUN npm run build
+#RUN npm run build
 
 CMD ["npm", "run", "dev"]
