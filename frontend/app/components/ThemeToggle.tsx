@@ -4,18 +4,20 @@ import { useState, useEffect } from 'react';
 import { Sun, Moon } from 'react-feather';
 
 export default function ThemeToggle() {
-  const htmlElement = document.querySelector('html');
-  const [theme, setTheme] = useState(
-    htmlElement?.getAttribute('data-theme') || 'light'
-  );
+  const [theme, setTheme] = useState('light');
+
+  useEffect(() => {
+    setTheme(localStorage?.getItem('theme') || 'light');
+  }, []);
 
   useEffect(() => {
     const htmlElement = document.querySelector('html');
     htmlElement?.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
   }, [theme]);
 
   function toggleTheme() {
-    setTheme(theme === 'light' ? 'dark' : 'light');
+    setTheme(theme === 'dark' ? 'light' : 'dark');
   }
 
   return theme === 'dark' ? (

@@ -1,4 +1,5 @@
-import ArticleComp, { Article } from './Article';
+import { Article } from '@/app/types';
+import ArticleComp from './Article';
 
 function getArticles(): Article[] {
   const articles: Article[] = [
@@ -31,7 +32,7 @@ export default function ArticleList() {
   const articles = getArticles();
 
   return (
-    <div className="margin-large container">
+    <div className="container">
       {articles?.map((article) => {
         return <ArticleComp key={article.id} article={article} />;
       })}

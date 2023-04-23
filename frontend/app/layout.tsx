@@ -20,6 +20,9 @@ export default function RootLayout({
       <body className="container">
         <Navbar />
         <main>{children}</main>
+        <footer>
+          <small>© 2021 FooBar GmbH</small>
+        </footer>
       </body>
     </html>
   );

@@ -20,10 +20,10 @@ export default function Navbar() {
             <ShoppingCart />
           </Link>
         </li>
+        <li></li>
         <li>
           <ThemeToggle />
         </li>
-
         {/* <li>
           <Link href="#" role="button" className={'outline'}>
             Login
