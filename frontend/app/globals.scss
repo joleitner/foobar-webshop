@@ -17,5 +17,9 @@ $primary-700: #7cb342;
   color: inherit;
 }
 
+.padding-40 {
+  padding: 40px;
+}
+
 // Import Pico
 @import '@picocss/pico/scss/pico';

@@ -1,35 +1,24 @@
 import { Article } from '@/app/types';
 import ArticleComp from './Article';
+import { api } from '@/config';
 
-function getArticles(): Article[] {
-  const articles: Article[] = [
-    {
-      id: 1,
-      name: 'Article 1',
-      description: 'Hello this is a weird description',
-      price: 10.22,
-    },
-    {
-      id: 2,
-      name: 'Article 2',
-      description: 'Hello this is a weird description',
-      price: 40,
-    },
-    {
-      id: 3,
-      name: 'Article 3',
-      description: 'Hello this is a weird description',
-      price: 345,
-    },
-  ];
-  // const res = await fetch();
-  // const data = res.json()
+async function getArticles(): Promise<Article[]> {
+  const res = await fetch(`${api}/articles`);
+  const articles = await res.json();
 
   return articles;
 }
 
-export default function ArticleList() {
-  const articles = getArticles();
+export default async function ArticleList() {
+  const articles = await getArticles();
+
+  if (articles == null) {
+    return (
+      <div>
+        <progress></progress>
+      </div>
+    );
+  }
 
   return (
     <div className="container">

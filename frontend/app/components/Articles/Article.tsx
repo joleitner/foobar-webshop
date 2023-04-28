@@ -4,7 +4,7 @@ import { Article } from '@/app/types';
 
 export default function Article({ article }: { article: Article }) {
   return (
-    <article>
+    <article className="padding-40">
       <h3>
         <ShoppingBag />
         &nbsp;&nbsp;&nbsp;
