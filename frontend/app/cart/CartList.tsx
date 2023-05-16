@@ -1,39 +1,29 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Cart } from '../../../types';
 import CartItem from './CartItem';
 import Link from 'next/link';
+import ShoppingCart from '@/app/utils/shoppingCart';
 
 export default function CartList() {
-  const [cart, setCart] = useState<Cart>({});
+  const cart = new ShoppingCart();
+  const cartItems = cart.getCart();
 
-  useEffect(() => {
-    const json = localStorage.getItem('shopping-cart');
-    if (json) {
-      setCart(JSON.parse(json));
-    }
-    calculateCartTotal();
-  }, []);
-
-  function calculateCartTotal() {
-    let total = 0;
-    Object.keys(cart).forEach((key) => {
-      const articleId = parseInt(key);
-      if (typeof articleId === 'number') {
-        total += cart[articleId].article.price * cart[articleId].amount;
-      }
-    });
-    return total;
-  }
-
-  if (Object.keys(cart).length === 0) {
-    return <div className="center">No items in cart yet"</div>;
+  if (cart.isEmpty()) {
+    return (
+      <article>
+        <p className="center">No items in cart yet</p>
+        <div className="center">
+          <Link href="/" role="button">
+            Start shopping
+          </Link>
+        </div>
+      </article>
+    );
   }
 
   return (
     <div>
-      <table role={Object.keys(cart).length > 0 ? 'grid' : ''}>
+      <table role={Object.keys(cartItems).length > 0 ? 'grid' : ''}>
         <thead>
           <tr>
             <th scope="col">Article</th>
@@ -45,15 +35,14 @@ export default function CartList() {
         </thead>
         {/* map over all numerical keys of cart and create a column with values*/}
         <tbody>
-          {Object.keys(cart).map((key) => {
-            console.log(typeof key);
+          {Object.keys(cartItems).map((key) => {
             const articleId = parseInt(key);
             if (typeof articleId === 'number') {
               return (
                 <CartItem
                   key={articleId}
-                  article={cart[articleId].article}
-                  amount={cart[articleId].amount}
+                  article={cartItems[articleId].article}
+                  amount={cartItems[articleId].amount}
                 />
               );
             }
@@ -62,7 +51,7 @@ export default function CartList() {
         <tfoot>
           <tr>
             <td colSpan={3}>Total</td>
-            <td>{calculateCartTotal()}</td>
+            <td>{cart.calculateCartTotal()}</td>
           </tr>
         </tfoot>
       </table>

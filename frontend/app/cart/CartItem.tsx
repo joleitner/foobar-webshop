@@ -1,6 +1,6 @@
 import { Article, Cart } from '@/app/types';
 import { Trash2 } from 'react-feather';
-import { useState, useEffect } from 'react';
+import ShoppingCart from '@/app/utils/shoppingCart';
 
 export default function CartItem({
   article,
@@ -9,19 +9,10 @@ export default function CartItem({
   article: Article;
   amount: number;
 }) {
-  const [cart, setCart] = useState<Cart>({});
-
-  useEffect(() => {
-    const json = localStorage.getItem('shopping-cart');
-    if (json) {
-      setCart(JSON.parse(json));
-    }
-  }, []);
+  const cart = new ShoppingCart();
 
   function deleteArticle() {
-    delete cart[article.id];
-    localStorage.setItem('shopping-cart', JSON.stringify(cart));
-    setCart(cart);
+    cart.delete(article.id);
     window.location.reload();
   }
 

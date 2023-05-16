@@ -20,13 +20,19 @@ model Article {
 
 enum OrderStatus {
   CREATED
+  PENDING
+  ACCEPTED
   DECLINED
-  PAID
   SHIPPED
 }
 
 model Order {
   id       String         @id @default(uuid())
+  name     String
+  email    String
+  address  String
+  city     String
+  zip      String
   status   OrderStatus    @default(CREATED)
   sum      Decimal
   articles OrderArticle[]

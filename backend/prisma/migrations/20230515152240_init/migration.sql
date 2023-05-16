@@ -14,6 +14,11 @@ CREATE TABLE "Article" (
 -- CreateTable
 CREATE TABLE "Order" (
     "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "address" TEXT NOT NULL,
+    "city" TEXT NOT NULL,
+    "zip" TEXT NOT NULL,
     "status" "OrderStatus" NOT NULL DEFAULT 'CREATED',
     "sum" DECIMAL(65,30) NOT NULL,
 

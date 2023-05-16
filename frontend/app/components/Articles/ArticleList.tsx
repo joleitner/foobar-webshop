@@ -1,11 +1,12 @@
 import { Article } from '@/app/types';
 import ArticleComp from './Article';
-import { api } from '@/config';
+import { nextApi } from '@/config';
 
 async function getArticles(): Promise<Article[]> {
-  const res = await fetch(`${api}/articles`);
-  const articles = await res.json();
-
+  const response = await fetch(`${nextApi}/articles`, {
+    next: { revalidate: 60 },
+  });
+  const articles = await response.json();
   return articles;
 }
 
