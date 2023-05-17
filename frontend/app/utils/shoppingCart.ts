@@ -5,7 +5,11 @@ export default class ShoppingCart {
 
   constructor() {
     // Retrieve cart from localStorage or initialize to an empty object
-    const storedCart = localStorage.getItem('shopping-cart');
+    let storedCart;
+    if (typeof window !== 'undefined') {
+      storedCart = localStorage.getItem('shopping-cart');
+    }
+
     this.cart = storedCart ? JSON.parse(storedCart) : {};
   }
 
