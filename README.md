@@ -11,7 +11,7 @@ To run the project locally, clone the repository and navigate into the `webshop-
 
 ### Setup local environment
 
-First of all, some local variables have to be defined for the database and the payment API.
+First of all, some local variables have to be defined for the database, the payment API, and the delivery interface.
 There exists two `.env_example` files, one on project root level and one in the `backend` directory.
 Copy both files and rename them to `.env`. Then, fill in the predefined variables with your own values.
 

@@ -13,6 +13,7 @@ export default function CheckoutPage() {
   const [city, setCity] = useState('');
   const [zip, setZip] = useState('');
   const [card, setCard] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const cart = new ShoppingCart();
   const orders = new Orders();
@@ -21,6 +22,7 @@ export default function CheckoutPage() {
     const items = cart.getCart();
     const sum = cart.calculateCartTotal();
     const data = { name, email, address, city, zip, card, sum, cart: items };
+    setLoading(true);
     fetch(`${nextApi}/checkout`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -33,6 +35,7 @@ export default function CheckoutPage() {
       setZip('');
       setCard('');
       cart.empty();
+      setLoading(false);
       const result = await res.json();
       if (result.status === 'success') {
         orders.add(result.order.id);
@@ -125,6 +128,7 @@ export default function CheckoutPage() {
             onChange={(event) => setCard(event.target.value)}
             required
           />
+          {loading && <progress />}
           <button type="submit">Pay and Checkout</button>
         </form>
       </article>

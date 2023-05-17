@@ -16,7 +16,8 @@ export default class Orders {
 
   public add(orderId: string): void {
     if (orderId) {
-      this.orderList.push(orderId);
+      // use unshift to have the most recent order at the top of the list
+      this.orderList.unshift(orderId);
     }
     localStorage.setItem('orders', JSON.stringify(this.orderList));
   }

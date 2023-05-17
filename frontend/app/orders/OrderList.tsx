@@ -5,13 +5,12 @@ import Orders from '@/app/utils/orders';
 import { Order } from '../types';
 import OrderItem from './OrderItem';
 
-export default async function OrderList() {
+export default function OrderList() {
   const [orderList, setOrderList] = useState<string[]>([]);
 
   useEffect(() => {
     const orders = new Orders();
     const localOrders = orders.getOrders();
-    console.log('localOrders', localOrders);
     setOrderList(localOrders);
   }, []);
 
@@ -28,7 +27,7 @@ export default async function OrderList() {
 
   return (
     <>
-      <article className="center">
+      <article>
         {orderList?.map((orderId) => {
           return <OrderItem key={orderId} orderId={orderId} />;
         })}

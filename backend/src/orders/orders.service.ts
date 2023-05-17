@@ -2,24 +2,37 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { Order, Prisma } from '@prisma/client';
 import { env } from 'process';
+import { WarehouseService } from 'src/warehouse/warehouse.service';
+import { timestamp } from 'rxjs';
 
 @Injectable()
 export class OrdersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private warehouse: WarehouseService,
+  ) {}
 
   async orders(): Promise<Order[]> {
     return this.prisma.order.findMany();
   }
 
   async order(id: string): Promise<Order> {
-    let order = await this.prisma.order.findUnique({
+    let order: any = await this.prisma.order.findUnique({
       where: {
         id,
+      },
+      include: {
+        articles: {
+          include: {
+            article: true,
+          },
+        },
       },
     });
     if (!order) {
       return null;
     }
+
     const payment = await this.getPaymentStatus(order.id);
 
     // update order status if payment status has changed
@@ -81,7 +94,15 @@ export class OrdersService {
       data: {
         status: payment.status.toUpperCase(),
       },
+      include: {
+        articles: {
+          include: {
+            article: true,
+          },
+        },
+      },
     });
+
     return updatedOrder;
   }
 
