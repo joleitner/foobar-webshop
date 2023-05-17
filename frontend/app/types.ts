@@ -1,3 +1,5 @@
+import { type } from 'os';
+
 export type Article = {
   id: number;
   name: string;
@@ -10,4 +12,16 @@ export type Cart = {
     article: Article;
     amount: number;
   };
+};
+
+export type Order = {
+  id: string;
+  name: string;
+  email: string;
+  address: string;
+  city: string;
+  zip: string;
+  status: string;
+  sum: number;
+  invoice: string;
 };

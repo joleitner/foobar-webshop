@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Param } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { Order as OrderModel } from '@prisma/client';
 import { json } from 'stream/consumers';
@@ -13,8 +13,11 @@ export class OrdersController {
   }
 
   @Get(':id')
-  async order(id: string): Promise<OrderModel> {
-    return this.ordersService.order(id);
+  async order(@Param() params: any) {
+    if (params.id === 'undefined') {
+      return { status: 'no correct id' };
+    }
+    return this.ordersService.order(params.id);
   }
 
   @Post()

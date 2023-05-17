@@ -12,11 +12,34 @@ export class OrdersService {
   }
 
   async order(id: string): Promise<Order> {
-    return this.prisma.order.findUnique({
+    let order = await this.prisma.order.findUnique({
       where: {
         id,
       },
     });
+    if (!order) {
+      return null;
+    }
+    const payment = await this.getPaymentStatus(order.id);
+
+    // update order status if payment status has changed
+    if (
+      payment.status.toUpperCase() !== order.status &&
+      order.status !== 'SHIPPED'
+    ) {
+      order = await this.prisma.order.update({
+        where: {
+          id: order.id,
+        },
+        data: {
+          status: payment.status.toUpperCase(),
+        },
+      });
+    }
+
+    order['invoice'] = payment.invoice;
+
+    return order;
   }
 
   async createOrder(
