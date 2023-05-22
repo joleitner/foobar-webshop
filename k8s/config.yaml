@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: webshop-config
+data:
+  DB_NAME: webshop
+  C4_ENDPOINT: https://c4.ebke.hmcloudlabs.de
+  SNS_TOPIC_ARN_REQUEST: arn:aws:sns:eu-central-1:692063941275:foobar-gmbh-lagerhaltung-anfragen
+  SNS_TOPIC_ARN_RESPONSE: arn:aws:sns:eu-central-1:692063941275:foobar-gmbh-lagerhaltung-antworten
