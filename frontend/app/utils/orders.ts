@@ -3,10 +3,10 @@ export default class Orders {
 
   constructor() {
     // Retrieve orders from localStorage or initialize to an empty array
-    // let storedOrders;
-    // if (typeof window !== 'undefined') {
-    const storedOrders = localStorage.getItem('orders');
-    // }
+    let storedOrders;
+    if (typeof window !== 'undefined') {
+      storedOrders = localStorage.getItem('orders');
+    }
     this.orderList = storedOrders ? JSON.parse(storedOrders) : [];
   }
 

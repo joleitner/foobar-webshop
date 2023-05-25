@@ -5,6 +5,8 @@
 This project is demonstrating the successful implementation of a cloud-based webshop for the so called 'FooBar GmbH'.
 It uses the latest version of Next.js 13 as the frontend, and Nest.js as the backend. Both are written in TypeScript.
 
+The webshop is deployed to the HM vcluster and is accessible at: https://jonasleitner-webshop.lab.kube.cs.hm.edu.
+
 ## Getting Started
 
 To run the project locally, clone the repository and navigate into the `webshop-joleitner` directory.
@@ -15,9 +17,9 @@ First of all, some local variables have to be defined for the database, the paym
 There exists two `.env_example` files, one on project root level and one in the `backend` directory.
 Copy both files and rename them to `.env`. Then, fill in the predefined variables with your own values.
 
-'''bash
+```bash
 cp .env_example .env
-'''
+```
 
 ### Run the project
 
@@ -37,6 +39,44 @@ To migrate the database, run the following command:
 ```bash
 npx prisma migrate dev
 ```
+
+## Production deployment
+
+To deploy the webshop to the HM vcluster, kubernetes is used. The config files can be found in the `k8s` directory.
+The images for the frontend and the backend are pushed into the Gitlab registry.
+
+1. First in the project settings an access token has to be created (and the container registry needs to be activated).
+2. With this token you have to locally login to the registry
+
+```bash
+docker login gitlab.lrz.de:5005
+```
+
+3. Afterwords build and push the images for frontend and backend:
+
+```bash
+# example for frontend
+cd frontend
+docker build -t gitlab.lrz.de:5005/ebke-2023/cc/webshop-joleitner/frontend .
+docker push gitlab.lrz.de:5005/ebke-2023/cc/webshop-joleitner/frontend
+```
+
+4. That the images can be accessed inside the vcluster, the imagePullSecret `regcred` got created like described [here](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/).
+5. Some other stuff with env and secrets.. (coming soon)
+6. To deploy the webshop, the following commands have to be executed:
+
+```bash
+cd k8s
+# create ConfigMap and Secret
+kubectl apply -f config.yaml
+kubectl apply -f secrets.yaml
+# create in order of dependencies
+kubectl apply -f db.yaml
+kubectl apply -f backend.yaml
+kubectl apply -f frontend.yaml
+```
+
+The webshop is accessible at: https://jonasleitner-webshop.lab.kube.cs.hm.edu.
 
 ## Admin
 

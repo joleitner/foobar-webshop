@@ -27,7 +27,7 @@ export default function RootLayout({
         <Navbar />
         <main>{children}</main>
         <footer>
-          <small>© 2021 FooBar GmbH</small>
+          <small>© 2023 FooBar GmbH</small>
         </footer>
       </body>
     </html>
