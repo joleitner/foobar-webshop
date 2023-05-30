@@ -1,15 +1,12 @@
-/** @type {import('next').NextConfig} */
+const path = require('path');
+
 const nextConfig = {
   experimental: {
     appDir: true,
   },
-  // publicRuntimeConfig: {
-  //   // Will be available on both server and client
-  //   apiBaseUrl:
-  //     process.env.NODE_ENV === 'production'
-  //       ? 'https://your-production-domain.com'
-  //       : 'http://localhost:3000',
-  // },
+  sassOptions: {
+    includePaths: [path.join(__dirname, 'styles')],
+  },
 };
 
 module.exports = nextConfig;

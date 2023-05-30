@@ -5,7 +5,18 @@
 This project is demonstrating the successful implementation of a cloud-based webshop for the so called 'FooBar GmbH'.
 It uses the latest version of Next.js 13 as the frontend, and Nest.js as the backend. Both are written in TypeScript.
 
-The webshop is deployed to the HM vcluster and is accessible at: https://jonasleitner-webshop.lab.kube.cs.hm.edu.
+The webshop is deployed to the HM vcluster and is accessible at: https://jonasleitner-webshop.lab.kube.cs.hm.edu. (Inside the HM network)
+
+| **Technical requirement** | **Path / folder**                                                 |
+| ------------------------- | ----------------------------------------------------------------- |
+| Article list              | frontend/app/page.tsx                                             |
+| Shopping cart             | frontend/app/cart/                                                |
+| Checkout                  | frontend/app/checkout/                                            |
+| Orders                    | frontend/app/orders/                                              |
+| Docker                    | docker-compose.yml <br>frontend/Dockerfile <br>backend/Dockerfile |
+| Payment interface         | backend/src/payment/payment.service.ts                            |
+| Delivery interface        | backend/src/warehouse/warehouse.service.ts                        |
+| Kubernetes deployment     | k8s/                                                              |
 
 ## Getting Started
 
@@ -37,7 +48,7 @@ To work with the database, we use Prisma. It is a modern ORM for Node.js and Typ
 To migrate the database, run the following command:
 
 ```bash
-npx prisma migrate dev
+docker-compose exec backend npx prisma migrate dev
 ```
 
 ## Production deployment

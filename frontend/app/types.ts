@@ -24,4 +24,6 @@ export type Order = {
   status: string;
   sum: number;
   invoice: string;
+  deliveryStatus: string;
+  deliveryMessage: string;
 };

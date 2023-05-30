@@ -1,6 +1,6 @@
 import { Poppins } from 'next/font/google';
 import '@picocss/pico';
-import './globals.scss';
+import '../styles/globals.scss';
 import './components/Navbar';
 import Navbar from './components/Navbar';
 

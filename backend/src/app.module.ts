@@ -7,6 +7,7 @@ import { OrdersService } from './orders/orders.service';
 import { OrdersController } from './orders/orders.controller';
 import { PrismaService } from './prisma.service';
 import { WarehouseService } from './warehouse/warehouse.service';
+import { PaymentService } from './payment/payment.service';
 
 @Module({
   imports: [],
@@ -17,6 +18,7 @@ import { WarehouseService } from './warehouse/warehouse.service';
     OrdersService,
     PrismaService,
     WarehouseService,
+    PaymentService,
   ],
 })
 export class AppModule {}

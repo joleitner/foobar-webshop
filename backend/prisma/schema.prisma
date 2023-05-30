@@ -35,6 +35,9 @@ model Order {
   zip      String
   status   OrderStatus    @default(CREATED)
   sum      Decimal
+  invoice  String?
+  deliveryStatus String?
+  deliveryMessage String?
   articles OrderArticle[]
 }
 

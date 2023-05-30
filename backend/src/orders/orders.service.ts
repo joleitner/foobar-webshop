@@ -1,22 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { Order, Prisma } from '@prisma/client';
-import { env } from 'process';
 import { WarehouseService } from 'src/warehouse/warehouse.service';
-import { timestamp } from 'rxjs';
+import { PaymentService } from 'src/payment/payment.service';
 
 @Injectable()
 export class OrdersService {
   constructor(
     private prisma: PrismaService,
     private warehouse: WarehouseService,
+    private payment: PaymentService,
   ) {}
 
-  async orders(): Promise<Order[]> {
-    return this.prisma.order.findMany();
-  }
-
-  async order(id: string): Promise<Order> {
+  async getOrder(id: string): Promise<Order> {
     let order: any = await this.prisma.order.findUnique({
       where: {
         id,
@@ -33,24 +29,52 @@ export class OrdersService {
       return null;
     }
 
-    const payment = await this.getPaymentStatus(order.id);
+    if (order.status === 'PENDING') {
+      const payment = await this.payment.getStatus(order.id);
 
-    // update order status if payment status has changed
-    if (
-      payment.status.toUpperCase() !== order.status &&
-      order.status !== 'SHIPPED'
-    ) {
+      try {
+        order = await this.prisma.order.update({
+          where: {
+            id: order.id,
+          },
+          data: {
+            status: payment.status.toUpperCase(),
+            invoice: payment.invoice !== 'invoice' ? payment.invoice : null,
+          },
+          include: {
+            articles: {
+              include: {
+                article: true,
+              },
+            },
+          },
+        });
+        // if payment was successful, send delivery request
+        if (order.status === 'ACCEPTED') {
+          const res = await this.warehouse.sendDeliveryRequest(order);
+          if (res.$metadata.httpStatusCode !== 200) {
+            console.error('Delivery request failed:', res);
+            // usually do something..
+          }
+        }
+      } catch (error) {
+        console.error('Failed to update order:', error);
+      }
+    }
+
+    // somtimes the invoice was not directly available -> refetch
+    if (order.status === 'ACCEPTED' && order.invoice === null) {
+      const payment = await this.payment.getStatus(order.id);
+
       order = await this.prisma.order.update({
         where: {
           id: order.id,
         },
         data: {
-          status: payment.status.toUpperCase(),
+          invoice: payment.invoice !== 'invoice' ? payment.invoice : null,
         },
       });
     }
-
-    order['invoice'] = payment.invoice;
 
     return order;
   }
@@ -85,7 +109,7 @@ export class OrdersService {
       },
     });
 
-    const payment = await this.verifyPayment(order, card);
+    const payment = await this.payment.create(order, card);
     // after payment is verified, update order status
     const updatedOrder = await this.prisma.order.update({
       where: {
@@ -106,44 +130,7 @@ export class OrdersService {
     return updatedOrder;
   }
 
-  private async verifyPayment(order: any, card: string): Promise<any> {
-    // request body for C4 payment interface
-    const request = {
-      amount: Math.round(+order.sum * 100), // convert to cents
-      currency: 'EUR',
-      id: order.id,
-      invoice: 'invoice',
-      items: order.articles.map((item) => ({
-        amount: Math.round(item.article.price * 100 * item.quantity),
-        quantity: item.quantity,
-        description: item.article.name,
-        currency: 'EUR',
-      })),
-      email: order.email,
-      card: {
-        number: card,
-      },
-    };
-
-    const res = await fetch(`${env.C4_ENDPOINT}/payment`, {
-      method: 'POST',
-      body: JSON.stringify(request),
-      headers: { 'Content-Type': 'application/json', api_key: env.C4_API_KEY },
-    });
-
-    const payment = await res.json();
-
-    return payment;
-  }
-
-  private async getPaymentStatus(id: string): Promise<any> {
-    const res = await fetch(`${env.C4_ENDPOINT}/payment/${id}`, {
-      method: 'GET',
-      headers: { api_key: env.C4_API_KEY },
-    });
-
-    const payment = await res.json();
-
-    return payment;
+  async updateDeliveryStatus(): Promise<void> {
+    await this.warehouse.updateDeliveryStatus();
   }
 }

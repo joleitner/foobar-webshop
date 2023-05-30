@@ -7,7 +7,9 @@ import { Order } from '../types';
 import { Download } from 'react-feather';
 
 async function getOrder(id: string): Promise<Order> {
-  const res = await fetch(`${nextApi}/orders/${id}`);
+  const res = await fetch(`${nextApi}/orders/${id}`, {
+    next: { revalidate: 10 },
+  });
   const order = await res.json();
   return order;
 }
@@ -23,7 +25,7 @@ export default function OrderItem({ orderId }: { orderId: string }) {
 
   if (!order) {
     return (
-      <details>
+      <details open>
         <summary>Loading</summary>
         <progress />
       </details>
@@ -46,28 +48,39 @@ export default function OrderItem({ orderId }: { orderId: string }) {
           </div>
         </div>
       ) : (
-        <div className="grid">
-          <div>
+        <>
+          <div className="grid">
             <div>
-              {order.name} ({order.email})
+              <div>
+                {order.name} ({order.email})
+              </div>
+              <strong>Address</strong>
+              <div>{order.address}</div>
+              <div>
+                {order.zip} {order.city}
+              </div>
             </div>
-            <strong>Address</strong>
-            <div>{order.address}</div>
             <div>
-              {order.zip} {order.city}
+              <div>
+                <strong>Total:</strong> {order.sum} €
+              </div>
+              <div>
+                <Link href={order.invoice !== null ? order.invoice : ''}>
+                  <Download /> invoice
+                </Link>
+              </div>
+              {order.deliveryStatus !== null && (
+                <div>
+                  <div>{'----------'}</div>
+                  <div>
+                    <strong>Delivery status: {order.deliveryStatus}</strong>
+                  </div>
+                  {order.deliveryMessage}
+                </div>
+              )}
             </div>
           </div>
-          <div>
-            <div>
-              <strong>Total:</strong> {order.sum} €
-            </div>
-            <div>
-              <Link href={order.invoice}>
-                <Download /> invoice
-              </Link>
-            </div>
-          </div>
-        </div>
+        </>
       )}
     </details>
   );

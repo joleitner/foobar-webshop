@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "OrderStatus" AS ENUM ('CREATED', 'DECLINED', 'PAID', 'SHIPPED');
+CREATE TYPE "OrderStatus" AS ENUM ('CREATED', 'PENDING', 'ACCEPTED', 'DECLINED', 'SHIPPED');
 
 -- CreateTable
 CREATE TABLE "Article" (
@@ -21,6 +21,9 @@ CREATE TABLE "Order" (
     "zip" TEXT NOT NULL,
     "status" "OrderStatus" NOT NULL DEFAULT 'CREATED',
     "sum" DECIMAL(65,30) NOT NULL,
+    "invoice" TEXT,
+    "deliveryStatus" TEXT,
+    "deliveryMessage" TEXT,
 
     CONSTRAINT "Order_pkey" PRIMARY KEY ("id")
 );

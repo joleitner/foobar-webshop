@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-sns": "^3.332.0",
+    "@aws-sdk/client-sqs": "^3.338.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",

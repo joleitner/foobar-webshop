@@ -7,9 +7,12 @@ import { json } from 'stream/consumers';
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
-  @Get()
-  async orders(): Promise<OrderModel[]> {
-    return this.ordersService.orders();
+  // to reload delivery status
+  // here triggered mannually -> usually this should be triggerd regularly by a cronjob
+  @Get('update')
+  async updateDeliveryStatus(): Promise<{}> {
+    await this.ordersService.updateDeliveryStatus();
+    return { status: 'updated' };
   }
 
   @Get(':id')
@@ -17,7 +20,7 @@ export class OrdersController {
     if (params.id === 'undefined') {
       return { status: 'no correct id' };
     }
-    return this.ordersService.order(params.id);
+    return this.ordersService.getOrder(params.id);
   }
 
   @Post()

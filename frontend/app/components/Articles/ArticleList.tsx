@@ -1,6 +1,7 @@
 import { Article } from '@/app/types';
 import ArticleComp from './Article';
 import { nextApi } from '@/config';
+import Link from 'next/link';
 
 async function getArticles(): Promise<Article[]> {
   const response = await fetch(`${nextApi}/articles`, {
@@ -13,10 +14,15 @@ async function getArticles(): Promise<Article[]> {
 export default async function ArticleList() {
   const articles = await getArticles();
 
-  if (articles == null) {
+  if (articles.length === 0) {
     return (
       <div>
         <progress></progress>
+        <div className="center">
+          <Link href="admin/articles" role="button">
+            Create an article as admin
+          </Link>
+        </div>
       </div>
     );
   }
