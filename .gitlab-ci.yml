@@ -1,0 +1,13 @@
+build:
+  image: docker:20.10.16
+  stage: build
+  services:
+    - docker:20.10.16-dind
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - cd backend
+    - docker build -t $CI_PROJECT_PATH/backend:latest .
+    - docker push $CI_PROJECT_PATH/backend:latest
+    - cd ../frontend
+    - docker build -t $CI_PROJECT_PATH/frontend:latest .
+    - docker push $CI_PROJECT_PATH/frontend:latest
