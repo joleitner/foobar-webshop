@@ -1,8 +1,8 @@
 build:
-  image: docker:20.10.16
+  image: docker:20.10.12
   stage: build
   services:
-    - docker:20.10.16-dind
+    - docker:20.10.12-dind
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - cd backend
