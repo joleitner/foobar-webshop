@@ -7,7 +7,7 @@ import OrderItem from './OrderItem';
 
 async function triggerUpdateDeliveryStatus() {
   const response = await fetch(`${nextApi}/orders/update`, {
-    next: { revalidate: 10 },
+    cache: 'no-store',
   });
 }
 

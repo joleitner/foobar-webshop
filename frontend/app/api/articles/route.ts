@@ -3,7 +3,9 @@ import { NextResponse } from 'next/server';
 // import { revalidatePath } from 'next/cache';
 
 export async function GET(request: Request) {
-  const res = await fetch(`${api}/articles`);
+  const res = await fetch(`${api}/articles`, {
+    cache: 'no-store',
+  });
   const articles = await res.json();
 
   return NextResponse.json(articles);

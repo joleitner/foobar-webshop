@@ -22,19 +22,27 @@ spec:
           env:
             - name: POSTGRES_DB
               valueFrom:
-                configMapKeyRef:
-                  name: webshop-config
+                secretKeyRef:
+                  name: db-secrets
                   key: DB_NAME
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  name: webshop-secrets
+                  name: db-secrets
                   key: DB_USER
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: webshop-secrets
+                  name: db-secrets
                   key: DB_PASSWORD
+      #     volumeMounts:
+      #       - name: data-volume
+      #         mountPath: /var/lib/postgresql/data
+      # volumes:
+      #   - name: data-volume
+      #     persistentVolumeClaim:
+      #       claimName: db-pvc
+
 ---
 apiVersion: v1
 kind: Service
@@ -47,3 +55,15 @@ spec:
     - protocol: TCP
       port: 5432
       targetPort: 5432
+
+---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: db-pvc
+# spec:
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 100Mi

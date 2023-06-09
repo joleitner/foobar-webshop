@@ -68,7 +68,7 @@ export class WarehouseService {
     const command = new ReceiveMessageCommand({
       QueueUrl: env.SQS_QUEUE_URL,
       MaxNumberOfMessages: 10,
-      WaitTimeSeconds: 5,
+      WaitTimeSeconds: 10,
     });
     const pendingOrders = await this.getOrdersPendingDeliveryStatus();
     let messagesAvailable = true;

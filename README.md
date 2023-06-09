@@ -40,7 +40,10 @@ Afterwards, run the following command to install and start all containers:
 docker-compose up
 ```
 
-This will start the project and make it available at http://localhost:3000.
+This will first build and then start the project and make it available at http://localhost:3000.
+
+> **Note:** Because of the volume for development the node_modules could be missing.
+> In this case, run `docker-compose run frontend npm install` and `docker-compose run backend npm install` to install the dependencies. They then will be mapped into your local project.
 
 ### Migrate database
 
@@ -73,14 +76,16 @@ docker push gitlab.lrz.de:5005/ebke-2023/cc/webshop-joleitner/frontend
 ```
 
 4. That the images can be accessed inside the vcluster, the imagePullSecret `regcred` got created like described [here](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/).
-5. Some other stuff with env and secrets.. (coming soon)
+5. That the environment variables we defined in our `.env` files are availabe as secrets for the kubernetes cluster, a script got created:
+
+```bash
+./bin/create-k8s-secrets
+```
+
 6. To deploy the webshop, the following commands have to be executed:
 
 ```bash
 cd k8s
-# create ConfigMap and Secret
-kubectl apply -f config.yaml
-kubectl apply -f secrets.yaml
 # create in order of dependencies
 kubectl apply -f db.yaml
 kubectl apply -f backend.yaml
@@ -91,4 +96,4 @@ The webshop is accessible at: https://jonasleitner-webshop.lab.kube.cs.hm.edu.
 
 ## Admin
 
-coming...
+Admin panel is accessible at `/admin`. New articles can be created here.
