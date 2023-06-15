@@ -23,26 +23,35 @@ export class PaymentService {
       },
     };
 
-    const res = await fetch(`${env.C4_ENDPOINT}/payment`, {
-      method: 'POST',
-      body: JSON.stringify(request),
-      headers: { 'Content-Type': 'application/json', api_key: env.C4_API_KEY },
-    });
+    try {
+      const res = await fetch(`${env.C4_ENDPOINT}/payment`, {
+        method: 'POST',
+        body: JSON.stringify(request),
+        headers: {
+          'Content-Type': 'application/json',
+          api_key: env.C4_API_KEY,
+        },
+      });
 
-    const payment = await res.json();
-
-    return payment;
+      const payment = await res.json();
+      return payment;
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   // gets payment status from C4 payment interface
   async getStatus(orderId: string): Promise<any> {
-    const res = await fetch(`${env.C4_ENDPOINT}/payment/${orderId}`, {
-      method: 'GET',
-      headers: { api_key: env.C4_API_KEY },
-    });
+    try {
+      const res = await fetch(`${env.C4_ENDPOINT}/payment/${orderId}`, {
+        method: 'GET',
+        headers: { api_key: env.C4_API_KEY },
+      });
 
-    const payment = await res.json();
-
-    return payment;
+      const payment = await res.json();
+      return payment;
+    } catch (error) {
+      console.error(error);
+    }
   }
 }

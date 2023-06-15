@@ -28,19 +28,22 @@ export default function CheckoutPage() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     }).then(async (res) => {
-      setName('');
-      setEmail('');
-      setAddress('');
-      setCity('');
-      setZip('');
-      setCard('');
-      cart.empty();
-      setLoading(false);
       const result = await res.json();
       if (result.status === 'success') {
         orders.add(result.order.id);
+        setName('');
+        setEmail('');
+        setAddress('');
+        setCity('');
+        setZip('');
+        setCard('');
+        cart.empty();
+        setLoading(false);
+        window.location.replace(`/orders`);
+      } else {
+        setLoading(false);
+        alert('The payment was not successful. Please try again.');
       }
-      window.location.replace(`/orders`);
     });
   };
 

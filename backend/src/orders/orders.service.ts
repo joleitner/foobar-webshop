@@ -110,24 +110,34 @@ export class OrdersService {
     });
 
     const payment = await this.payment.create(order, card);
-    // after payment is verified, update order status
-    const updatedOrder = await this.prisma.order.update({
-      where: {
-        id: order.id,
-      },
-      data: {
-        status: payment.status.toUpperCase(),
-      },
-      include: {
-        articles: {
-          include: {
-            article: true,
+    if (payment) {
+      // after payment is verified, update order status
+      const updatedOrder = await this.prisma.order.update({
+        where: {
+          id: order.id,
+        },
+        data: {
+          status: payment.status.toUpperCase(),
+        },
+        include: {
+          articles: {
+            include: {
+              article: true,
+            },
           },
         },
-      },
-    });
+      });
 
-    return updatedOrder;
+      return updatedOrder;
+    } else {
+      // in case of payment failure, delete order
+      this.prisma.order.delete({
+        where: {
+          id: order.id,
+        },
+      });
+      return null;
+    }
   }
 
   async updateDeliveryStatus(): Promise<void> {
