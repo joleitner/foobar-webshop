@@ -4,8 +4,8 @@ import { nextApi } from '@/config';
 import Link from 'next/link';
 
 async function getArticles(): Promise<Article[]> {
-  const response = await fetch(`${nextApi}/articles`, {
-    next: { revalidate: 60 },
+  const response = await fetch(`http://127.0.0.1:3000/api/articles`, {
+    cache: 'no-store',
   });
   const articles = await response.json();
   return articles;

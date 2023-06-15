@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: gitlab.lrz.de:5005/ebke-2023/cc/webshop-joleitner/frontend
+          image: gitlab.lrz.de:5005/ebke-2023/cc/webshop-joleitner/frontend:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 3000

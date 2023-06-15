@@ -51,7 +51,7 @@ export class PaymentService {
       const payment = await res.json();
       return payment;
     } catch (error) {
-      console.error(error);
+      console.error('Payment status updated failed:', error);
     }
   }
 }

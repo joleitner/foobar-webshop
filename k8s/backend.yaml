@@ -16,46 +16,19 @@ spec:
     spec:
       containers:
         - name: backend
-          image: gitlab.lrz.de:5005/ebke-2023/cc/webshop-joleitner/backend
+          image: gitlab.lrz.de:5005/ebke-2023/cc/webshop-joleitner/backend:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 5000
+          envFrom:
+            - secretRef:
+                name: backend-secrets
           env:
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
-                  name: webshop-secrets
+                  name: backend-secrets
                   key: DATABASE_URL
-            - name: C4_ENDPOINT
-              valueFrom:
-                configMapKeyRef:
-                  name: webshop-config
-                  key: C4_ENDPOINT
-            - name: C4_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: webshop-secrets
-                  key: C4_API_KEY
-            - name: AWS_ACCESS_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: webshop-secrets
-                  key: AWS_ACCESS_KEY
-            - name: AWS_SECRET_ACCESS_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: webshop-secrets
-                  key: AWS_SECRET_ACCESS_KEY
-            - name: SNS_TOPIC_ARN_REQUEST
-              valueFrom:
-                configMapKeyRef:
-                  name: webshop-config
-                  key: SNS_TOPIC_ARN_REQUEST
-            - name: SNS_TOPIC_ARN_RESPONSE
-              valueFrom:
-                configMapKeyRef:
-                  name: webshop-config
-                  key: SNS_TOPIC_ARN_RESPONSE
       imagePullSecrets:
         - name: regcred
 ---
