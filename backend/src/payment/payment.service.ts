@@ -48,8 +48,11 @@ export class PaymentService {
         headers: { api_key: env.C4_API_KEY },
       });
 
-      const payment = await res.json();
-      return payment;
+      console.log(res.status);
+      if (res.status !== 200) {
+        const payment = await res.json();
+        return payment;
+      }
     } catch (error) {
       console.error('Payment status updated failed:', error);
     }
