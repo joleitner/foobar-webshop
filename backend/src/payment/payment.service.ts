@@ -33,10 +33,12 @@ export class PaymentService {
         },
       });
 
-      const payment = await res.json();
-      return payment;
+      if (res.status === 200) {
+        const payment = await res.json();
+        return payment;
+      }
     } catch (error) {
-      console.error(error);
+      console.error('Create payment failed: ', error);
     }
   }
 
@@ -48,8 +50,7 @@ export class PaymentService {
         headers: { api_key: env.C4_API_KEY },
       });
 
-      console.log(res.status);
-      if (res.status !== 200) {
+      if (res.status === 200) {
         const payment = await res.json();
         return payment;
       }
