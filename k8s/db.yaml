@@ -35,13 +35,14 @@ spec:
                 secretKeyRef:
                   name: db-secrets
                   key: DB_PASSWORD
-      #     volumeMounts:
-      #       - name: data-volume
-      #         mountPath: /var/lib/postgresql/data
-      # volumes:
-      #   - name: data-volume
-      #     persistentVolumeClaim:
-      #       claimName: db-pvc
+          volumeMounts:
+            - name: data-volume
+              mountPath: /var/lib/postgresql/data
+              subPath: postgres
+      volumes:
+        - name: data-volume
+          persistentVolumeClaim:
+            claimName: db-pvc
 
 ---
 apiVersion: v1
@@ -55,15 +56,3 @@ spec:
     - protocol: TCP
       port: 5432
       targetPort: 5432
-
----
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: db-pvc
-# spec:
-#   accessModes:
-#     - ReadWriteOnce
-#   resources:
-#     requests:
-#       storage: 100Mi
