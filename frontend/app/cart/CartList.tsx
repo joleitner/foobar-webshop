@@ -5,7 +5,7 @@ import Link from 'next/link';
 import ShoppingCart from '@/app/utils/shoppingCart';
 
 export default function CartList() {
-  const cart = new ShoppingCart();
+  const cart = ShoppingCart.getInstance();
   const cartItems = cart.getCart();
 
   if (cart.isEmpty()) {

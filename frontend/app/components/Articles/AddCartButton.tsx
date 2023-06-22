@@ -4,7 +4,7 @@ import { Article, Cart } from '@/app/types';
 import ShoppingCart from '../../utils/shoppingCart';
 
 export default function AddCartButton({ article }: { article: Article }) {
-  const cart = new ShoppingCart();
+  const cart = ShoppingCart.getInstance();
 
   return (
     <button

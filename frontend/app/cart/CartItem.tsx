@@ -9,7 +9,7 @@ export default function CartItem({
   article: Article;
   amount: number;
 }) {
-  const cart = new ShoppingCart();
+  const cart = ShoppingCart.getInstance();
 
   function deleteArticle() {
     cart.delete(article.id);

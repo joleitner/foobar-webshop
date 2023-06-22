@@ -66,7 +66,7 @@ export default function OrderItem({ orderId }: { orderId: string }) {
               </div>
               <div>
                 {order.invoice && (
-                  <Link href={order.invoice}>
+                  <Link target="_blank" href={order.invoice}>
                     <Download /> invoice
                   </Link>
                 )}

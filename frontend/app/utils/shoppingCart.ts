@@ -1,6 +1,7 @@
 import { Cart, Article } from '../types';
 
 export default class ShoppingCart {
+  private static instance: ShoppingCart; // Singleton instance
   private cart: Cart;
 
   constructor() {
@@ -11,6 +12,13 @@ export default class ShoppingCart {
     }
 
     this.cart = storedCart ? JSON.parse(storedCart) : {};
+  }
+
+  public static getInstance(): ShoppingCart {
+    if (!ShoppingCart.instance) {
+      ShoppingCart.instance = new ShoppingCart();
+    }
+    return ShoppingCart.instance;
   }
 
   public getCart(): Cart {

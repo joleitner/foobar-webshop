@@ -21,8 +21,6 @@ ENV NODE_ENV=production
 WORKDIR /usr/src/app
 COPY --from=build /build/package*.json ./
 COPY --from=build /build/.next ./.next
-COPY --from=build /build/public ./public
-COPY --from=build /build/styles ./styles
 RUN npm install next
 
 CMD ["npm", "run", "start"]

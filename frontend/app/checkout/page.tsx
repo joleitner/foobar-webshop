@@ -15,7 +15,7 @@ export default function CheckoutPage() {
   const [card, setCard] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const cart = new ShoppingCart();
+  const cart = ShoppingCart.getInstance();
   const orders = new Orders();
 
   const handleSubmit = () => {

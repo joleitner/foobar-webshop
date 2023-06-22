@@ -88,7 +88,8 @@ export class WarehouseService {
                   id: deliveryMessage.id,
                 },
                 data: {
-                  status: 'SHIPPED',
+                  status:
+                    deliveryMessage.status == 'sent' ? 'SHIPPED' : 'ACCEPTED',
                   deliveryStatus: deliveryMessage.status,
                   deliveryMessage: deliveryMessage.comment,
                 },
