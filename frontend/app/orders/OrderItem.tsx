@@ -65,9 +65,11 @@ export default function OrderItem({ orderId }: { orderId: string }) {
                 <strong>Total:</strong> {order.sum} €
               </div>
               <div>
-                <Link href={order.invoice !== null ? order.invoice : ''}>
-                  <Download /> invoice
-                </Link>
+                {order.invoice && (
+                  <Link href={order.invoice}>
+                    <Download /> invoice
+                  </Link>
+                )}
               </div>
               {order.deliveryStatus !== null && (
                 <div>

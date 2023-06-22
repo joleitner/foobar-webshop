@@ -16,6 +16,7 @@ The webshop is deployed to the HM vcluster and is accessible at: https://jonasle
 | Docker                    | docker-compose.yml <br>frontend/Dockerfile <br>backend/Dockerfile |
 | Payment interface         | backend/src/payment/payment.service.ts                            |
 | Delivery interface        | backend/src/warehouse/warehouse.service.ts                        |
+| Terraform                 | terraform/                                                        |
 | Kubernetes deployment     | k8s/                                                              |
 
 ## Getting Started
@@ -45,7 +46,7 @@ This will first build and then start the project and make it available at http:/
 > **Note:** Because of the volume for development the node_modules could be missing.
 > In this case, run `docker-compose run frontend npm install` and `docker-compose run backend npm install` to install the dependencies. They then will be mapped into your local project.
 
-### Migrate database
+### Migrate database locally
 
 To work with the database, we use Prisma. It is a modern ORM for Node.js and TypeScript.
 To migrate the database, run the following command:
@@ -53,6 +54,24 @@ To migrate the database, run the following command:
 ```bash
 docker-compose exec backend npx prisma migrate dev
 ```
+
+## Terraform AWS deployment
+
+To create the infrastructure (SQS) on AWS, Terraform is used. The config file can be found in the `terraform` directory.
+The SQS queue is used to receive all messages from the warehouse SNS via backend.
+
+1. Terraform and AWS CLI need to be installed.
+2. The AWS credentials need to be configured with the `aws configure` command.
+
+Afterwards the SQS queue can be created with the following commands:
+
+```bash
+cd terraform
+terraform init
+terraform apply
+```
+
+The output sqs_queue_url needs to be copied into the backend `.env` file.
 
 ## Production deployment
 

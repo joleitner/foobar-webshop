@@ -1,2 +1,5 @@
 .env
-k8s/secrets.yaml
+# terraform 
+terraform/.terraform
+terraform/terraform.tfstate*
+terraform/.terraform.lock.hcl
