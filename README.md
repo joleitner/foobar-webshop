@@ -106,6 +106,7 @@ docker push gitlab.lrz.de:5005/ebke-2023/cc/webshop-joleitner/frontend
 ```bash
 cd k8s
 # create in order of dependencies
+kubectl apply -f pvc.yaml
 kubectl apply -f db.yaml
 kubectl apply -f backend.yaml
 kubectl apply -f frontend.yaml
