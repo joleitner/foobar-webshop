@@ -1,11 +1,9 @@
 # FooBar Webshop
 
-### By 'joleitner'
-
 This project is demonstrating the successful implementation of a cloud-based webshop for the so called 'FooBar GmbH'.
 It uses the latest version of Next.js 13 as the frontend, and Nest.js as the backend. Both are written in TypeScript.
 
-The webshop is deployed to the HM vcluster and is accessible at: https://jonasleitner-webshop.lab.kube.cs.hm.edu. (Inside the HM network)
+The webshop was developed for a study project and got deployed on the kubernetes vcluster of the university of applied sciences Munich.
 
 | **Technical requirement** | **Path / folder**                                                 |
 | ------------------------- | ----------------------------------------------------------------- |
@@ -21,7 +19,7 @@ The webshop is deployed to the HM vcluster and is accessible at: https://jonasle
 
 ## Getting Started
 
-To run the project locally, clone the repository and navigate into the `webshop-joleitner` directory.
+To run the project locally, clone the repository and navigate into the `foobar-webshop` directory.
 
 ### Setup local environment
 
@@ -111,8 +109,6 @@ kubectl apply -f db.yaml
 kubectl apply -f backend.yaml
 kubectl apply -f frontend.yaml
 ```
-
-The webshop is accessible at: https://jonasleitner-webshop.lab.kube.cs.hm.edu.
 
 ## Admin
 
